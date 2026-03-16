@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEditor.Build.Content;
 public class PlayerController : MonoBehaviour
 {
     public TextMeshProUGUI healthText;
@@ -9,13 +10,12 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 20f;
     private bool isGrounded = false;
-    private int score = 0;
-    private int health = 100;
+    // private int score = 0;
+    // private int health = 100;
     private Rigidbody2D rb;
 
     void Start()
     {
-        UpdateUI();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -58,37 +58,17 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Coin"))
         {
-            score += 10;
-            UpdateUI();
-            Debug.Log("Score " + score);
+            // score += 10;
+            GameManager.Instance.AddPoints(10);
             Destroy(other.gameObject);
-
-            if (score >= 120)
-            {
-                PlayerPrefs.SetInt("FinalScore", score);
-                SceneManager.LoadScene(2);
-            }
         }
     }
 
     void TakeDamage(int damage)
     {
-        health -= damage;
-        UpdateUI();
-        Debug.Log("Health: " + health);
+        GameManager.Instance.takeDamage(damage);
+        // Debug.Log("Health: " + health);
 
-        if (health <= 0)
-        {
-            // Game over
-            Debug.Log("Player died!");
-            PlayerPrefs.SetInt("FinalScore", score);
-            SceneManager.LoadScene(2);
-        }
     }
 
-    void UpdateUI()
-    {
-        healthText.text = "Health: " + health;
-        scoreText.text = "Score: " + score;
-    }
 }

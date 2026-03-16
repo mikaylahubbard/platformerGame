@@ -8,14 +8,16 @@ public class GameOverManager : MonoBehaviour
 
     void Start()
     {
-        int finalScore = PlayerPrefs.GetInt("FinalScore", 0);
+        int finalScore = GameManager.Instance.score;
         scoreText.text = "Final Score: " + finalScore;
     }
     public void StartGame()
     {
         //Loads the GameScene scene
-
+        GameManager.Instance.score = 0;
+        GameManager.Instance.health = 100;
         SceneManager.LoadScene("GameScene");
+
     }
 
 }
