@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.Build.Content;
 public class PlayerController : MonoBehaviour
 {
+
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI scoreText;
     public float moveSpeed = 5f;
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            AudioManager.Instance.PlaySoundEffect(AudioManager.Instance.jumpSound);
         }
     }
 
@@ -60,7 +62,8 @@ public class PlayerController : MonoBehaviour
         {
             // score += 10;
             GameManager.Instance.AddPoints(10);
-            Destroy(other.gameObject);
+            // Destroy(other.gameObject);
+            CoinPoolManager.Instance.ReturnCoin(other.gameObject);
         }
     }
 

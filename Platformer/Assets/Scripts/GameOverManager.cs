@@ -14,6 +14,7 @@ public class GameOverManager : MonoBehaviour
     public void StartGame()
     {
         //Loads the GameScene scene
+        CoinPoolManager.Instance.ResetAllCoins();
         GameManager.Instance.score = 0;
         GameManager.Instance.health = 100;
         SceneManager.LoadScene("GameScene");

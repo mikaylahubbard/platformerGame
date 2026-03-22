@@ -1,0 +1,72 @@
+using UnityEngine;
+
+public class AudioManager : MonoBehaviour
+{
+    public static AudioManager Instance { get; private set; }
+
+    public AudioSource musicSource;
+    public AudioSource sfxSource;
+
+    public AudioClip bgMusic;
+    public AudioClip coinSound;
+    public AudioClip jumpSound;
+    public AudioClip damageSound;
+
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+    }
+
+    void Start()
+    {
+        PlayMusic(bgMusic);
+    }
+
+
+    public void PlayMusic(AudioClip clip)
+    {
+        musicSource.clip = clip;
+        musicSource.loop = true;
+        musicSource.Play();
+    }
+
+    public void PlaySoundEffect(AudioClip clip)
+    {
+        sfxSource.PlayOneShot(clip);
+    }
+
+
+
+    void OnEnable()
+    {
+        GameManager.Instance.onScoreChanged += OnScoreChanged;
+
+        GameManager.Instance.onHealthChanged += OnHealthChanged;
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.onScoreChanged -= OnScoreChanged;
+        GameManager.Instance.onHealthChanged -= OnHealthChanged;
+    }
+
+    void OnScoreChanged(int newScore)
+    {
+        PlaySoundEffect(coinSound);
+    }
+
+    void OnHealthChanged(int newHealth)
+    {
+        PlaySoundEffect(damageSound);
+    }
+
+
+}
