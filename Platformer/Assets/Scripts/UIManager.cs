@@ -7,11 +7,16 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI healthText;
 
+
+
+
+
     void OnEnable()
     {
         GameManager.Instance.onScoreChanged += UpdateScore;
         GameManager.Instance.onHealthChanged += UpdateHealth;
         GameManager.Instance.onGameOver += HandleGameOver;
+
     }
 
     void OnDisable()
